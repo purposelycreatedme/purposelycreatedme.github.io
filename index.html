@@ -1,0 +1,695 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PurposelyCreated.me | Coming Soon</title>
+    <style>
+        :root {
+            --cream: #F5F5F5;
+            --dark: #111111;
+            --accent: #A67A5B;
+            --light-accent: #DFD3C3;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(166, 122, 91, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(166, 122, 91, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(166, 122, 91, 0); }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        body {
+            color: var(--dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+            background-color: transparent;
+        }
+        
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Background Styles */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none; /* Allows clicking through the background layer */
+        }
+        
+        .video-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(245, 245, 245, 0.85); /* Semi-transparent cream overlay */
+        }
+        
+        .image-slideshow {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .slideshow-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .slideshow-image.active {
+            opacity: 1;
+        }
+        
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 8px 15px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .audio-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--dark);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            margin-right: 10px;
+        }
+        
+        .audio-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        
+        /* Header */
+        .header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+     
+        
+      
+        
+        .hamburger-line:nth-child(1) {
+            width: 24px;
+        }
+        
+        .hamburger-line:nth-child(2) {
+            width: 18px;
+        }
+        
+        .hamburger-line:nth-child(3) {
+            width: 12px;
+        }
+        
+        .hamburger:hover .hamburger-line {
+            width: 24px;
+        }
+        
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .menu-right {
+            display: flex;
+            gap: 2rem;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .menu-item {
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 4rem;
+        }
+        
+        .content-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .coming-soon-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.2s;
+        }
+        
+        .main-title {
+            font-size: 120px;
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.4s;
+        }
+        
+        .description {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            max-width: 500px;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.5s;
+        }
+        
+        .form-container {
+            max-width: 400px;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.6s;
+        }
+        
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+        }
+        
+        .email-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--dark);
+            padding: 8px 4px;
+            font-size: 14px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .submit-btn {
+            align-self: flex-start;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 8px 0;
+            position: relative;
+        }
+        
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--dark);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .submit-btn:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .footer-link {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--dark);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .footer-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        /* Splash screen to trigger audio */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .splash-logo {
+            font-size: 40px;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+        }
+        
+        .enter-button {
+            padding: 12px 30px;
+            background-color: var(--dark);
+            color: white;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .enter-button:hover {
+            background-color: #333;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-title {
+                font-size: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header, .footer {
+                padding: 1.5rem 2rem;
+            }
+            
+            .main-content {
+                padding: 0 2rem;
+            }
+            
+            .main-title {
+                font-size: 60px;
+            }
+            
+            .menu-right {
+                gap: 1rem;
+            }
+            
+            .audio-controls {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .website-url {
+                font-size: 15px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 1rem 1.25rem;
+            }
+            
+            .main-title {
+                font-size: 42px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .footer-links {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 20px;
+                max-width: 60%;
+            }
+            
+            .website-url {
+                font-size: 15px !important;
+                font-weight: 600 !important;
+                margin-bottom: 2rem !important;
+                background-color: rgba(255, 255, 255, 0.7);
+                padding: 10px 15px !important;
+                border-radius: 5px;
+                margin-top: -5px !important;
+            }
+            
+            .main-content {
+                padding: 0 1.25rem;
+            }
+            
+            .description {
+                margin-bottom: 2rem;
+            }
+            
+            .audio-controls {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px 12px;
+                max-width: 140px;
+            }
+            
+            .email-input {
+                padding: 12px 5px;
+                font-size: 16px;
+            }
+            
+            .submit-btn {
+                padding: 12px 0;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+            
+            .hamburger {
+                width: 20px;
+            }
+            
+            .menu-right {
+                gap: 0.75rem;
+                font-size: 11px;
+            }
+            
+            .footer {
+                padding: 1rem 1.25rem;
+            }
+            
+            .splash-logo {
+                font-size: 32px;
+                text-align: center;
+                padding: 0 20px;
+            }
+            
+            .enter-button {
+                padding: 15px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <meta name="theme-color" content="#F5F5F5">
+<script src="https://lib.yourware.so/yourware-lib.umd.js" id="yourware-lib"></script><script id="simplify-jobs-page-script" src="chrome-extension://pbanhockgagggenencehbnadejlgchfc/js/pageScript.bundle.js"></script><script src="https://lib.yourware.so/yourware-lib.umd.js" id="yourware-lib"></script></head>
+<body>
+    <!-- Splash Screen for Audio Initialization -->
+    <div class="splash-screen" >
+        <div class="splash-logo">PurposelyCreated.me</div>
+        <button class="enter-button" id="enter-site">ENTER SITE</button>
+    </div>
+    
+    <!-- Background Image Slideshow -->
+    <div class="video-background">
+        <div class="image-slideshow" id="slideshow">
+            <!-- Images will be loaded via JavaScript -->
+        <img src="https://cdn.pixabay.com/photo/2022/07/10/22/16/ray-charles-7313839_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2018/03/06/06/58/performance-3202707_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2019/11/15/13/22/lady-4628418_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2012/10/26/03/36/jazz-63212_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2021/12/08/12/42/street-musicians-6855638_1280.jpg" class="slideshow-image active"><img src="https://cdn.pixabay.com/photo/2019/12/15/08/14/body-painting-4696539_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2022/09/16/13/07/generated-7458584_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2016/10/11/17/46/african-art-1732251_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2022/07/10/22/16/ray-charles-7313839_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2018/03/06/06/58/performance-3202707_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2019/11/15/13/22/lady-4628418_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2012/10/26/03/36/jazz-63212_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2021/12/08/12/42/street-musicians-6855638_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2019/12/15/08/14/body-painting-4696539_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2022/09/16/13/07/generated-7458584_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2016/10/11/17/46/african-art-1732251_1280.jpg" class="slideshow-image"></div>
+    </div>
+    
+    <!-- Audio Player (Hidden) -->
+    <audio id="background-audio" loop="">
+        <source src="AUDIO_9681.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <button class="audio-button" id="toggle-audio">
+            <i class="fas fa-volume-up" id="audio-icon"></i>
+        </button>
+        <span class="audio-label" id="audio-label">Sound On</span>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="hamburger">
+           
+            </div>
+            
+            <div class="logo"><a href="https://purposelycreated.me" style="text-decoration: none; color: var(--dark);">PurposelyCreated.me</a></div>
+            
+            <div class="menu-right">
+               
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <section class="main-content">
+            <div class="content-wrapper">
+                <div class="coming-soon-tag">Coming Soon</div>
+                <h1 class="main-title">Purpose</h1>
+                <p class="description">A platform designed to empower musicians and artists through purpose-driven fashion, where creative expression meets meaningful design.</p>
+                
+                <p class="description website-url" style="font-weight: 500; margin-top: -20px; animation-delay: 0.55s; font-size: 16px;">Visit <a href="https://purposelycreated.me" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">purposelycreated.me</a> when we launch!</p>
+                
+                <div class="form-container">
+                    <form class="email-form" action="https://formsubmit.co/rlgoodman7@gmail.com" method="POST">
+                        <input type="email" name="email" class="email-input" placeholder="Enter your email address" required="">
+                        <input type="hidden" name="_subject" value="New Waitlist Signup - PurposelyCreated.me">
+                        <input type="hidden" name="_next" value="https://purposelycreated.me">
+                        <input type="hidden" name="_template" value="box">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="message" value="Hello Mr. Goodman,
+
+Congratulations! Someone new has subscribed to the PurposelyCreated.me waitlist.
+
+Customer details:
+- Email: {email}
+
+This person is interested in your platform designed to empower musicians and artists through purpose-driven fashion.
+
+You can reach out to them when the website is officially launched.
+
+Best regards,
+The PurposelyCreated.me Notification System">
+                        <button type="submit" class="submit-btn">Join The Waitlist</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div>© 2025 <a href="https://purposelycreated.me" style="text-decoration: none; color: var(--dark);">PurposelyCreated.me</a></div>
+            
+            <div class="footer-links">
+                <div class="footer-link">Instagram</div>
+                <div class="footer-link">Twitter</div>
+                <div class="footer-link">Spotify</div>
+                <div class="footer-link">Terms</div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        let audioElement;
+        let isMuted = true;
+        const slideImages = [
+            "https://cdn.pixabay.com/photo/2022/07/10/22/16/ray-charles-7313839_1280.jpg",
+            "https://cdn.pixabay.com/photo/2018/03/06/06/58/performance-3202707_1280.jpg", 
+            "https://cdn.pixabay.com/photo/2019/11/15/13/22/lady-4628418_1280.jpg",
+            "https://cdn.pixabay.com/photo/2012/10/26/03/36/jazz-63212_1280.jpg",
+            "https://cdn.pixabay.com/photo/2021/12/08/12/42/street-musicians-6855638_1280.jpg",
+            "https://cdn.pixabay.com/photo/2019/12/15/08/14/body-painting-4696539_1280.jpg",
+            "https://cdn.pixabay.com/photo/2022/09/16/13/07/generated-7458584_1280.jpg",
+            "https://cdn.pixabay.com/photo/2016/10/11/17/46/african-art-1732251_1280.jpg"
+        ];
+        
+        // Initialize audio and slideshow when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize audio
+            audioElement = document.getElementById('background-audio');
+            audioElement.volume = 0.7;
+            
+            // Initialize slideshow
+            const slideshow = document.getElementById('slideshow');
+            
+            // Create image elements
+            slideImages.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'slideshow-image';
+                if (index === 0) img.classList.add('active'); // Make first image active
+                slideshow.appendChild(img);
+            });
+            
+            // Start slideshow
+            let currentSlide = 0;
+            setInterval(() => {
+                const images = document.querySelectorAll('.slideshow-image');
+                images[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % images.length;
+                images[currentSlide].classList.add('active');
+            }, 5000);
+        });
+
+        // Initialize and handle splash screen
+        const splashScreen = document.getElementById('splash');
+        const enterButton = document.getElementById('enter-site');
+        const audioButton = document.getElementById('toggle-audio');
+        const audioIcon = document.getElementById('audio-icon');
+        const audioLabel = document.getElementById('audio-label');
+        
+        enterButton.addEventListener('click', function() {
+            // Start audio with better mobile support
+            if (audioElement) {
+                // Try to play with user gesture
+                let playPromise = audioElement.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        // Autoplay started successfully
+                        audioElement.muted = false;
+                        isMuted = false;
+                        audioIcon.className = 'fas fa-volume-up';
+                        audioLabel.textContent = 'Sound On';
+                    })
+                    .catch(error => {
+                        // Auto-play was prevented
+                        console.log("Audio playback was prevented by browser: ", error);
+                        // Set to muted state
+                        audioElement.muted = true;
+                        isMuted = true;
+                        audioIcon.className = 'fas fa-volume-mute';
+                        audioLabel.textContent = 'Sound Off (Click to enable)';
+                        
+                        // Make audio controls more visible to alert user
+                        const audioControls = document.querySelector('.audio-controls');
+                        audioControls.style.animation = 'pulse 2s infinite';
+                    });
+                }
+            }
+            
+            // Hide splash screen
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+            }, 500);
+        });
+        
+        // Toggle audio button
+        audioButton.addEventListener('click', function() {
+            if (!audioElement) return;
+
+            if (isMuted) {
+                audioElement.muted = false;
+                audioIcon.className = 'fas fa-volume-up';
+                audioLabel.textContent = 'Sound On';
+                isMuted = false;
+            } else {
+                audioElement.muted = true;
+                audioIcon.className = 'fas fa-volume-mute';
+                audioLabel.textContent = 'Sound Off';
+                isMuted = true;
+            }
+        });
+        
+        // Form submission handling
+        const form = document.querySelector('.email-form');
+        const submitBtn = document.querySelector('.submit-btn');
+        
+        // We will use FormSubmit's default handling
+        // The form action is now set directly on the HTML form element
+        // This listener is just for client-side validation and UI updates
+        form.addEventListener('submit', function(e) {
+            const input = this.querySelector('.email-input');
+            const userEmail = input.value;
+            
+            if (userEmail && userEmail.includes('@')) {
+                // Let the form submit normally
+                submitBtn.innerText = 'Processing...';
+                // Form will be submitted to FormSubmit service
+            } else {
+                e.preventDefault();
+            }
+        });
+    </script>
+
+</body></html>
