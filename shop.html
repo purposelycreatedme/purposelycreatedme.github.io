@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PurposelyCreated.me | Premium Fashion for Musicians & Artists</title>
+    <style>
+        :root {
+            --cream: #F5F5F5;
+            --dark: #111111;
+            --accent: #A67A5B;
+            --light-accent: #DFD3C3;
+            --white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        body {
+            background-color: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 4rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--dark);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent);
+        }
+        
+        .cart-btn {
+            background: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .cart-btn:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--dark);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem 4rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--light-accent) 0%, var(--cream) 100%);
+            border-radius: 20px;
+            margin-bottom: 4rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: var(--dark);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .hero-cta {
+            background: var(--dark);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .hero-cta:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        /* Products Section */
+        .products-section {
+            margin: 4rem 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(166, 122, 91, 0.1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--light-accent), var(--cream));
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .product-title {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .product-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .add-to-cart-btn {
+            flex: 1;
+            background: var(--dark);
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart-btn:hover {
+            background: var(--accent);
+        }
+        
+        .quick-view-btn {
+            background: transparent;
+            color: var(--dark);
+            padding: 10px 15px;
+            border: 1px solid var(--dark);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-view-btn:hover {
+            background: var(--dark);
+            color: white;
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--accent);
+        }
+        
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(166, 122, 91, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 4rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 2rem;
+            }
+            
+            .main-content {
+                padding: 1rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .footer {
+                padding: 2rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">PurposelyCreated.me</a>
+            
+            <div class="nav-links">
+                <a href="#" class="nav-link">Collections</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+                <button class="cart-btn" onclick="goToCart()">
+                    Cart
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Purpose-Driven Fashion</h1>
+            <p>Empowering musicians and artists through meaningful design. Where creative expression meets fashion.</p>
+            <a href="#products" class="hero-cta">Shop Collection</a>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section" id="products">
+            <h2 class="section-title">Featured Collection</h2>
+            
+            <div id="products-container" class="loading">
+                Loading our exclusive collection...
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About PurposelyCreated</h3>
+                <p>We create premium fashion that tells a story. Each piece is designed to empower musicians and artists to express their creativity while making a statement.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <p><a href="#">Shipping Info</a></p>
+                <p><a href="#">Returns & Exchanges</a></p>
+                <p><a href="#">Size Guide</a></p>
+                <p><a href="#">Contact Us</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <p><a href="#">Instagram</a></p>
+                <p><a href="#">Twitter</a></p>
+                <p><a href="#">Spotify</a></p>
+                <p><a href="#">Newsletter</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 PurposelyCreated.me. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration - UPDATE THESE WITH YOUR ACTUAL WORDPRESS INFO
+        const WORDPRESS_URL = 'https://store.purposelycreated.me'; // Your WordPress URL
+        const CONSUMER_KEY = 'YOUR_CONSUMER_KEY'; // Get from WooCommerce settings
+        const CONSUMER_SECRET = 'YOUR_CONSUMER_SECRET'; // Get from WooCommerce settings
+        
+        // Sample products for demo (replace with actual API call)
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Artist Signature Hoodie",
+                price: "89.99",
+                description: "Premium cotton hoodie designed for creative expression. Limited edition.",
+                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop",
+                category: "Hoodies"
+            },
+            {
+                id: 2,
+                name: "Musician's Travel Tee",
+                price: "34.99",
+                description: "Comfortable organic cotton tee perfect for tours and studio sessions.",
+                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+                category: "T-Shirts"
+            },
+            {
+                id: 3,
+                name: "Creative Canvas Jacket",
+                price: "129.99",
+                description: "Durable canvas jacket with artist-inspired design elements.",
+                image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop",
+                category: "Jackets"
+            },
+            {
+                id: 4,
+                name: "Purpose Snapback",
+                price: "24.99",
+                description: "Classic snapback with embroidered Purpose logo. One size fits all.",
+                image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=400&fit=crop",
+                category: "Accessories"
+            },
+            {
+                id: 5,
+                name: "Studio Sessions Crewneck",
+                price: "64.99",
+                description: "Cozy crewneck sweatshirt made for long creative sessions.",
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+                category: "Sweatshirts"
+            },
+            {
+                id: 6,
+                name: "Expression Tank Top",
+                price: "19.99",
+                description: "Lightweight tank perfect for performances and casual wear.",
+                image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=400&h=400&fit=crop",
+                category: "Tank Tops"
+            }
+        ];
+        
+        // Load products from WordPress or use sample data
+        async function loadProducts() {
+            const container = document.getElementById('products-container');
+            
+            try {
+                // Try to load from WordPress first
+                // const response = await fetch(`${WORDPRESS_URL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`);
+                // const products = await response.json();
+                
+                // For now, use sample products
+                displayProducts(sampleProducts);
+                
+            } catch (error) {
+                console.log('Using sample products for demo');
+                displayProducts(sampleProducts);
+            }
+        }
+        
+        function displayProducts(products) {
+            const container = document.getElementById('products-container');
+            container.className = 'products-grid';
+            
+            if (products.length === 0) {
+                container.innerHTML = '<p>No products available yet. Check back soon!</p>';
+                return;
+            }
+            
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image || 'https://via.placeholder.com/300x250?text=Product+Image'}" 
+                             alt="${product.name}" 
+                             onerror="this.parentElement.innerHTML='<i>📦</i>'">
+                    </div>
+                    <h3 class="product-title">${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <div class="product-price">$${product.price}</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
+                            Add to Cart
+                        </button>
+                        <button class="quick-view-btn" onclick="quickView(${product.id})">
+                            View
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('purposely_cart') || '[]');
+        
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+        
+        function addToCart(productId, productName, productPrice) {
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('purposely_cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added!';
+            button.style.background = 'var(--accent)';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'var(--dark)';
+            }, 1000);
+        }
+        
+        function goToCart() {
+            // Redirect to WordPress cart with items
+            const cartItems = cart.map(item => `${item.id}:${item.quantity}`).join(',');
+            window.location.href = `${WORDPRESS_URL}/cart/?items=${cartItems}`;
+        }
+        
+        function quickView(productId) {
+            // For now, just scroll to product or show modal
+            alert('Quick view functionality coming soon!');
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>
