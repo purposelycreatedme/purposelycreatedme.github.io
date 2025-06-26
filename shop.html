@@ -265,11 +265,12 @@
             background: var(--accent);
         }
         
-        .quick-view-btn {
-            background: transparent;
-            color: var(--dark);
-            padding: 10px 15px;
-            border: 1px solid var(--dark);
+        .buy-now-btn {
+            flex: 1;
+            background: var(--accent);
+            color: white;
+            padding: 10px;
+            border: none;
             border-radius: 8px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
@@ -279,9 +280,8 @@
             transition: all 0.3s ease;
         }
         
-        .quick-view-btn:hover {
+        .buy-now-btn:hover {
             background: var(--dark);
-            color: white;
         }
         
         /* Loading State */
@@ -396,10 +396,10 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav">
-            <a href="/" class="logo">PurposelyCreated.me</a>
+            <a href="index.html" class="logo">PurposelyCreated.me</a>
             
             <div class="nav-links">
-                <a href="#" class="nav-link">Collections</a>
+                <a href="#products" class="nav-link">Collections</a>
                 <a href="#" class="nav-link">About</a>
                 <a href="#" class="nav-link">Contact</a>
                 <button class="cart-btn" onclick="goToCart()">
@@ -460,12 +460,12 @@
     </footer>
 
     <script>
-        // Configuration - UPDATE THESE WITH YOUR ACTUAL WORDPRESS INFO
-        const WORDPRESS_URL = 'https://store.purposelycreated.me'; // Your WordPress URL
-        const CONSUMER_KEY = 'YOUR_CONSUMER_KEY'; // Get from WooCommerce settings
-        const CONSUMER_SECRET = 'YOUR_CONSUMER_SECRET'; // Get from WooCommerce settings
+        // Your WordPress API Configuration
+        const WORDPRESS_URL = 'https://purposelycreated.me';
+        const CONSUMER_KEY = 'ck_11fb1a23d8aa542831f7ad62c2e834d85a3a7e87';
+        const CONSUMER_SECRET = 'cs_5f0bc33d2c7001a274b77083a50880d037b1647d';
         
-        // Sample products for demo (replace with actual API call)
+        // Sample products for demo (will be replaced by API data when available)
         const sampleProducts = [
             {
                 id: 1,
@@ -517,21 +517,38 @@
             }
         ];
         
-        // Load products from WordPress or use sample data
+        // Load products from WordPress API
         async function loadProducts() {
             const container = document.getElementById('products-container');
             
             try {
-                // Try to load from WordPress first
-                // const response = await fetch(`${WORDPRESS_URL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`);
-                // const products = await response.json();
+                // Load from WordPress API
+                const response = await fetch(`${WORDPRESS_URL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&per_page=20`);
                 
-                // For now, use sample products
-                displayProducts(sampleProducts);
+                if (response.ok) {
+                    const products = await response.json();
+                    if (products && products.length > 0) {
+                        console.log('Loaded products from WordPress:', products);
+                        displayProducts(products.map(product => ({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            description: product.short_description ? 
+                                product.short_description.replace(/<[^>]*>/g, '') : 
+                                (product.description ? product.description.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : 'Premium quality product'),
+                            image: product.images && product.images[0] ? product.images[0].src : null,
+                            category: product.categories && product.categories[0] ? product.categories[0].name : 'Product'
+                        })));
+                        return;
+                    }
+                }
+                
+                // Fallback message if no products
+                container.innerHTML = '<p style="text-align: center; font-family: Inter, sans-serif;">Unable to load products. Please check back later!</p>';
                 
             } catch (error) {
-                console.log('Using sample products for demo');
-                displayProducts(sampleProducts);
+                console.log('Error loading products:', error);
+                container.innerHTML = '<p style="text-align: center; font-family: Inter, sans-serif;">Unable to load products. Please check back later!</p>';
             }
         }
         
@@ -540,26 +557,27 @@
             container.className = 'products-grid';
             
             if (products.length === 0) {
-                container.innerHTML = '<p>No products available yet. Check back soon!</p>';
+                container.innerHTML = '<p style="text-align: center; font-family: Inter, sans-serif;">No products available yet. Check back soon!</p>';
                 return;
             }
             
             container.innerHTML = products.map(product => `
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="${product.image || 'https://via.placeholder.com/300x250?text=Product+Image'}" 
-                             alt="${product.name}" 
-                             onerror="this.parentElement.innerHTML='<i>📦</i>'">
+                        ${product.image ? 
+                            `<img src="${product.image}" alt="${product.name}" onerror="this.parentElement.innerHTML='<span style=\\"font-size: 3rem; color: var(--accent)\\">📦</span>'">` 
+                            : '<span style="font-size: 3rem; color: var(--accent);">📦</span>'
+                        }
                     </div>
                     <h3 class="product-title">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
                     <div class="product-price">$${product.price}</div>
                     <div class="product-actions">
-                        <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price})">
                             Add to Cart
                         </button>
-                        <button class="quick-view-btn" onclick="quickView(${product.id})">
-                            View
+                        <button class="buy-now-btn" onclick="buyNow(${product.id})">
+                            Buy Now
                         </button>
                     </div>
                 </div>
@@ -603,10 +621,19 @@
             }, 1000);
         }
         
+        function buyNow(productId) {
+            // Direct buy now - redirect to WordPress checkout
+            window.location.href = `${WORDPRESS_URL}/checkout/?add-to-cart=${productId}&goto=checkout&embed=1`;
+        }
+        
         function goToCart() {
-            // Redirect to WordPress cart with items
-            const cartItems = cart.map(item => `${item.id}:${item.quantity}`).join(',');
-            window.location.href = `${WORDPRESS_URL}/cart/?items=${cartItems}`;
+            // Redirect to WordPress cart 
+            if (cart.length > 0) {
+                const cartItems = cart.map(item => `${item.id}:${item.quantity}`).join(',');
+                window.location.href = `${WORDPRESS_URL}/cart/?items=${cartItems}`;
+            } else {
+                window.location.href = `${WORDPRESS_URL}/cart/`;
+            }
         }
         
         function quickView(productId) {
@@ -619,6 +646,3 @@
             loadProducts();
             updateCartCount();
         });
-    </script>
-</body>
-</html>
