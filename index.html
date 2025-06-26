@@ -47,7 +47,7 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
-            pointer-events: none; /* Allows clicking through the background layer */
+            pointer-events: none;
         }
         
         .video-background::after {
@@ -57,7 +57,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(245, 245, 245, 0.85); /* Semi-transparent cream overlay */
+            background-color: rgba(245, 245, 245, 0.85);
         }
         
         .image-slideshow {
@@ -124,26 +124,6 @@
             justify-content: space-between;
             align-items: center;
             backdrop-filter: blur(5px);
-        }
-        
-     
-        
-      
-        
-        .hamburger-line:nth-child(1) {
-            width: 24px;
-        }
-        
-        .hamburger-line:nth-child(2) {
-            width: 18px;
-        }
-        
-        .hamburger-line:nth-child(3) {
-            width: 12px;
-        }
-        
-        .hamburger:hover .hamburger-line {
-            width: 24px;
         }
         
         .logo {
@@ -268,6 +248,28 @@
             transform-origin: left;
         }
         
+        .enter-button {
+            background: var(--dark);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .enter-button:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+        
         /* Footer */
         .footer {
             padding: 1.5rem 4rem;
@@ -307,45 +309,6 @@
         .footer-link:hover::after {
             transform: scaleX(1);
             transform-origin: left;
-        }
-        
-        /* Splash screen to trigger audio */
-        .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--cream);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
-        
-        .splash-logo {
-            font-size: 40px;
-            margin-bottom: 30px;
-            letter-spacing: 3px;
-        }
-        
-        .enter-button {
-            padding: 12px 30px;
-            background-color: var(--dark);
-            color: white;
-            border: none;
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .enter-button:hover {
-            background-color: #333;
         }
         
         /* Animations */
@@ -388,10 +351,6 @@
                 bottom: 20px;
                 right: 20px;
             }
-            
-            .website-url {
-                font-size: 15px !important;
-            }
         }
         
         @media (max-width: 480px) {
@@ -411,16 +370,6 @@
             .logo {
                 font-size: 20px;
                 max-width: 60%;
-            }
-            
-            .website-url {
-                font-size: 15px !important;
-                font-weight: 600 !important;
-                margin-bottom: 2rem !important;
-                background-color: rgba(255, 255, 255, 0.7);
-                padding: 10px 15px !important;
-                border-radius: 5px;
-                margin-top: -5px !important;
             }
             
             .main-content {
@@ -449,10 +398,6 @@
                 margin-top: 5px;
             }
             
-            .hamburger {
-                width: 20px;
-            }
-            
             .menu-right {
                 gap: 0.75rem;
                 font-size: 11px;
@@ -460,12 +405,6 @@
             
             .footer {
                 padding: 1rem 1.25rem;
-            }
-            
-            .splash-logo {
-                font-size: 32px;
-                text-align: center;
-                padding: 0 20px;
             }
             
             .enter-button {
@@ -477,19 +416,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <meta name="theme-color" content="#F5F5F5">
-<script src="https://lib.yourware.so/yourware-lib.umd.js" id="yourware-lib"></script><script id="simplify-jobs-page-script" src="chrome-extension://pbanhockgagggenencehbnadejlgchfc/js/pageScript.bundle.js"></script><script src="https://lib.yourware.so/yourware-lib.umd.js" id="yourware-lib"></script></head>
+</head>
 <body>
-    <!-- Splash Screen for Audio Initialization -->
-    <div class="splash-screen" >
-        <div class="splash-logo">PurposelyCreated.me</div>
-        <button class="enter-button" id="enter-site">ENTER SITE</button>
-    </div>
-    
     <!-- Background Image Slideshow -->
     <div class="video-background">
         <div class="image-slideshow" id="slideshow">
             <!-- Images will be loaded via JavaScript -->
-        <img src="https://cdn.pixabay.com/photo/2022/07/10/22/16/ray-charles-7313839_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2018/03/06/06/58/performance-3202707_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2019/11/15/13/22/lady-4628418_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2012/10/26/03/36/jazz-63212_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2021/12/08/12/42/street-musicians-6855638_1280.jpg" class="slideshow-image active"><img src="https://cdn.pixabay.com/photo/2019/12/15/08/14/body-painting-4696539_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2022/09/16/13/07/generated-7458584_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2016/10/11/17/46/african-art-1732251_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2022/07/10/22/16/ray-charles-7313839_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2018/03/06/06/58/performance-3202707_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2019/11/15/13/22/lady-4628418_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2012/10/26/03/36/jazz-63212_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2021/12/08/12/42/street-musicians-6855638_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2019/12/15/08/14/body-painting-4696539_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2022/09/16/13/07/generated-7458584_1280.jpg" class="slideshow-image"><img src="https://cdn.pixabay.com/photo/2016/10/11/17/46/african-art-1732251_1280.jpg" class="slideshow-image"></div>
+        </div>
     </div>
     
     <!-- Audio Player (Hidden) -->
@@ -509,10 +442,6 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="hamburger">
-           
-            </div>
-            
             <div class="logo"><a href="https://purposelycreated.me" style="text-decoration: none; color: var(--dark);">PurposelyCreated.me</a></div>
             
             <div class="menu-right">
@@ -523,48 +452,24 @@
         <!-- Main Content -->
         <section class="main-content">
             <div class="content-wrapper">
-                <div class="coming-soon-tag">Coming Soon</div>
+                <div class="coming-soon-tag">Now Available</div>
                 <h1 class="main-title">Purpose</h1>
                 <p class="description">A platform designed to empower musicians and artists through purpose-driven fashion, where creative expression meets meaningful design.</p>
                 
-                <p class="description website-url" style="font-weight: 500; margin-top: -20px; animation-delay: 0.55s; font-size: 16px;">Visit <a href="https://purposelycreated.me" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">purposelycreated.me</a> when we launch!</p>
-                
                 <div class="form-container">
+                    <a href="shop.html" class="enter-button">SHOP NOW</a>
+                    
                     <form class="email-form" action="https://formsubmit.co/rlgoodman7@gmail.com" method="POST">
-                        <input type="email" name="email" class="email-input" placeholder="Enter your email address" required="">
-                        <input type="hidden" name="_subject" value="New Waitlist Signup - PurposelyCreated.me">
+                        <input type="email" name="email" class="email-input" placeholder="Enter your email for updates" required="">
+                        <input type="hidden" name="_subject" value="Newsletter Signup - PurposelyCreated.me">
                         <input type="hidden" name="_next" value="https://purposelycreated.me">
                         <input type="hidden" name="_template" value="box">
                         <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="message" value="Hello Mr. Goodman,
-
-Congratulations! Someone new has subscribed to the PurposelyCreated.me waitlist.
-
-Customer details:
-- Email: {email}
-
-This person is interested in your platform designed to empower musicians and artists through purpose-driven fashion.
-
-You can reach out to them when the website is officially launched.
-
-Best regards,
-The PurposelyCreated.me Notification System">
-                       <div class="form-container">
-    <a href="shop.html" class="enter-button" style="display: inline-block; text-decoration: none; margin-bottom: 1rem;">
-        SHOP NOW
-    </a>
-
-                           <div class="form-container">
-    <a href="shop.html" class="enter-button" style="display: inline-block; text-decoration: none; margin-bottom: 1rem;">
-        SHOP NOW
-    </a>
-    
-    
-    <!-- Keep your existing waitlist form below -->
-    <form class="email-form" action="https://formsubmit.co/rlgoodman7@gmail.com" method="POST">
-        <!-- Your existing form code -->
-    </form>
-</div>
+                        <button type="submit" class="submit-btn">Join Our Newsletter</button>
+                    </form>
+                </div>
+            </div>
+        </section>
         
         <!-- Footer -->
         <footer class="footer">
@@ -597,7 +502,10 @@ The PurposelyCreated.me Notification System">
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize audio
             audioElement = document.getElementById('background-audio');
-            audioElement.volume = 0.7;
+            if (audioElement) {
+                audioElement.volume = 0.7;
+                audioElement.muted = true; // Start muted
+            }
             
             // Initialize slideshow
             const slideshow = document.getElementById('slideshow');
@@ -607,7 +515,7 @@ The PurposelyCreated.me Notification System">
                 const img = document.createElement('img');
                 img.src = src;
                 img.className = 'slideshow-image';
-                if (index === 0) img.classList.add('active'); // Make first image active
+                if (index === 0) img.classList.add('active');
                 slideshow.appendChild(img);
             });
             
@@ -621,56 +529,17 @@ The PurposelyCreated.me Notification System">
             }, 5000);
         });
 
-        // Initialize and handle splash screen
-        const splashScreen = document.getElementById('splash');
-        const enterButton = document.getElementById('enter-site');
+        // Audio controls
         const audioButton = document.getElementById('toggle-audio');
         const audioIcon = document.getElementById('audio-icon');
         const audioLabel = document.getElementById('audio-label');
         
-        enterButton.addEventListener('click', function() {
-            // Start audio with better mobile support
-            if (audioElement) {
-                // Try to play with user gesture
-                let playPromise = audioElement.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        // Autoplay started successfully
-                        audioElement.muted = false;
-                        isMuted = false;
-                        audioIcon.className = 'fas fa-volume-up';
-                        audioLabel.textContent = 'Sound On';
-                    })
-                    .catch(error => {
-                        // Auto-play was prevented
-                        console.log("Audio playback was prevented by browser: ", error);
-                        // Set to muted state
-                        audioElement.muted = true;
-                        isMuted = true;
-                        audioIcon.className = 'fas fa-volume-mute';
-                        audioLabel.textContent = 'Sound Off (Click to enable)';
-                        
-                        // Make audio controls more visible to alert user
-                        const audioControls = document.querySelector('.audio-controls');
-                        audioControls.style.animation = 'pulse 2s infinite';
-                    });
-                }
-            }
-            
-            // Hide splash screen
-            splashScreen.style.opacity = '0';
-            setTimeout(() => {
-                splashScreen.style.display = 'none';
-            }, 500);
-        });
-        
-        // Toggle audio button
         audioButton.addEventListener('click', function() {
             if (!audioElement) return;
 
             if (isMuted) {
                 audioElement.muted = false;
+                audioElement.play().catch(e => console.log('Audio play failed:', e));
                 audioIcon.className = 'fas fa-volume-up';
                 audioLabel.textContent = 'Sound On';
                 isMuted = false;
@@ -686,21 +555,15 @@ The PurposelyCreated.me Notification System">
         const form = document.querySelector('.email-form');
         const submitBtn = document.querySelector('.submit-btn');
         
-        // We will use FormSubmit's default handling
-        // The form action is now set directly on the HTML form element
-        // This listener is just for client-side validation and UI updates
         form.addEventListener('submit', function(e) {
             const input = this.querySelector('.email-input');
             const userEmail = input.value;
             
             if (userEmail && userEmail.includes('@')) {
-                // Let the form submit normally
                 submitBtn.innerText = 'Processing...';
-                // Form will be submitted to FormSubmit service
             } else {
                 e.preventDefault();
             }
         });
     </script>
-
 </body></html>
